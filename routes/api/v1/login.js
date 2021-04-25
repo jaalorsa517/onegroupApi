@@ -1,23 +1,35 @@
-var express = require('express');
-var router = express.Router();
-var {getUser} = require('../../../datas/mongo/usersMongo');
+const bcrypt = require('bcrypt');
+const express = require('express');
+const router = express.Router();
+const {getUser} = require('../../../services/mongo/usersMongo');
+const {generateToken} = require('../../../utils/tokens');
 
 router.post('/', async (req, res) => {
-  const {user} = req.body;
+  const user = req.body;
   try {
-    const _user = await getUser(user.email);
+    const _user = await getUser({email: user.email});
     if (!_user)
-      res.status(404).json({message: 'Usuario o contraseña incorrectos'});
+      return res
+        .status(404)
+        .json({message: 'Usuario o contraseña incorrectos'});
 
-    //Falta encriptar passwords
-    if (user.password !== _user.password)
-      res.status(401).json({message: 'Usuario o contraseña incorrectos'});
+    if (!bcrypt.compareSync(user.password, _user.password))
+      return res
+        .status(404)
+        .json({message: 'Usuario o contraseña incorrectos'});
 
-    res.status(200).json({message: 'Recurso creado', id: idUser});
+    //Generar el token
+    const token = generateToken({
+      email: _user.email,
+      name: _user.name,
+      lastName: _user.lastName,
+    });
+
+    return res.status(200).json({message: 'Acceso concedido', token});
   } catch (error) {
-    res.status(400).json({message: 'No se pudo crear el recurso'});
+    console.log('Error en login: ' + error);
+    return res.status(400).json({message: 'No se puede loguear'});
   }
-  console.log(product);
 });
 
 module.exports = router;

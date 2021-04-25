@@ -1,4 +1,4 @@
-const {client, collection} = require('./');
+const {client, collection} = require('.');
 
 /**
  * Funcion que inserta un usuario a mongo
@@ -13,7 +13,7 @@ const insertUser = user =>
       const _collection = collection('users');
       try {
         const id = await _collection.insertOne(user);
-        resolve(id);
+        resolve(id.insertedId);
       } catch (error) {
         reject(error);
       } finally {
@@ -43,4 +43,22 @@ const getUser = emailUser =>
     });
   });
 
-module.exports = {insertUser, getUser};
+/**
+ * Verifica si un usuario existe
+ * @param {*} emailUser
+ * @returns Promise<boolean>
+ */
+const isUser = emailUser =>
+  new Promise((resolve, reject) => {
+    client.connect(async err => {
+      if (err) reject(err);
+      const _collection = collection('users');
+      try {
+        (await _collection.findOne(emailUser)) ? resolve(true) : resolve(false);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  });
+
+module.exports = {insertUser, getUser, isUser};
