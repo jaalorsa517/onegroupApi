@@ -12,7 +12,6 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(passport.initialize());
-app.use(passport.session());
 
 //Router
 app.use('/api/v1/login', loginRouter);

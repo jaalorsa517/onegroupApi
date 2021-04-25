@@ -1,5 +1,5 @@
 const passport = require('passport');
-var Strategy = require('passport-http-bearer').Strategy;
+const Strategy = require('passport-http-bearer').Strategy;
 const {hashToken} = require('../../utils/tokens');
 
 passport.use(

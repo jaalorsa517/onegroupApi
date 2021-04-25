@@ -11,7 +11,9 @@ router.post('/', async (req, res) => {
 
     user.password = bcrypt.hashSync(user.password, 10);
     const idUser = await insertUser(user);
-    return res.status(201).json({message: 'Recurso creado', id: idUser});
+    return res
+      .status(201)
+      .json({message: 'Recurso creado', idInserted: idUser});
   } catch (error) {
     console.log('Error en signin ' + error);
     return res.status(400).json({message: 'No se pudo crear el recurso'});

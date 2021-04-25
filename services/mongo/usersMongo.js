@@ -16,8 +16,6 @@ const insertUser = user =>
         resolve(id.insertedId);
       } catch (error) {
         reject(error);
-      } finally {
-        client.close();
       }
     });
   });
@@ -37,8 +35,6 @@ const getUser = emailUser =>
         resolve(user);
       } catch (error) {
         reject(error);
-      } finally {
-        client.close();
       }
     });
   });
