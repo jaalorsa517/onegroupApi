@@ -6,8 +6,7 @@ const config = require('../config');
  * @param {*} payload
  * @returns String del token
  */
-const generateToken = payload =>
-  jwt.sign(payload, config.authJwtSecret, {expiresIn: '6h'});
+const generateToken = payload => jwt.sign(payload, config.authJwtSecret);
 
 /**
  * Verifica si el token es correcto
