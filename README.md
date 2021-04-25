@@ -3,6 +3,9 @@
 ## Description
 
 Api que gestiona los datos de productos y usuarios.
+La API está alojada en https://onegroupapi.herokuapp.com.
+
+## Endpoints
 
 ### /api/v1/signin
 
