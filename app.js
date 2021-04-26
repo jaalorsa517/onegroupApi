@@ -1,5 +1,6 @@
 const express = require('express');
 const passport = require('passport');
+const cors = require('cors');
 
 const loginRouter = require('./routes/api/v1/login');
 const signinRouter = require('./routes/api/v1/signin');
@@ -10,6 +11,7 @@ require('./services/auth/bearerAuthenticated');
 const app = express();
 
 app.use(express.json());
+app.use(cors);
 app.use(express.urlencoded({extended: false}));
 app.use(passport.initialize());
 
